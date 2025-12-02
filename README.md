@@ -23,7 +23,7 @@ This Project was developed by:
 - Wen Fan - wqfan05@gmail.com
 - Mia Carter - Mia.L.Carter04@gmail.com
 - Jay Chan - jayc10@uci.edu
-- Hala Khattaab - hala.khattaab@gmail.com
+- Hala Khattab - hala.khattaab@gmail.com
 
 Mentors:
 - Rajshri Jain (Break Through Tech)
