@@ -93,7 +93,7 @@ nav.scrolled {
 
 h1 {
     font-size: 3.5rem;
-    color: white;
+    color: #2c3e50;
     margin-bottom: 1rem;
     font-weight: 800;
     line-height: 1.2;
@@ -101,7 +101,7 @@ h1 {
 
 .subtitle {
     font-size: 1.3rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: #2c3e50;
     margin-bottom: 3rem;
     font-weight: 300;
 }

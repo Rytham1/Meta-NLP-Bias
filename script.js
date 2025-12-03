@@ -133,26 +133,15 @@ function displayResults(isBiased, confidence = 0) {
     resultsDiv.style.display = 'block';
     resultsDiv.className = 'results ' + (isBiased ? 'biased' : 'not-biased');
     
-    const confidencePercent = Math.round(confidence * 100);
-    
     if (isBiased) {
         resultsDiv.innerHTML = `
             <div class="result-icon">⚠️</div>
-            <div class="result-text">Potential Bias Detected</div>
-            <div class="result-description">
-                This text may contain biased language or stereotypical associations. 
-                Consider reviewing and revising for more inclusive language.
-                ${confidence > 0 ? `<br><br><strong>Confidence: ${confidencePercent}%</strong>` : ''}
-            </div>
+            <div class="result-text">Bias Detected</div>
         `;
     } else {
         resultsDiv.innerHTML = `
             <div class="result-icon">✅</div>
             <div class="result-text">No Bias Detected</div>
-            <div class="result-description">
-                This text appears to be neutral and free from obvious biased language.
-                ${confidence > 0 ? `<br><br><strong>Confidence: ${confidencePercent}%</strong>` : ''}
-            </div>
         `;
     }
 }
