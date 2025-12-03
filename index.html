@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Bias Detection Tool | Meta 1B</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="nav">
+        <div class="nav-content">
+            <div class="logo">Meta 1B</div>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#team">Team</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Tool -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1>AI Bias Detection Tool</h1>
+            <p class="subtitle">Identifying dataset bias using fine-tuned language models</p>
+            
+            <div class="tool-card">
+                <div class="input-group">
+                    <textarea 
+                        id="textInput" 
+                        placeholder="Enter text to analyze for bias... (e.g., 'Doctors are usually men' or 'Women are better at nursing')"
+                    ></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button class="analyze-btn" id="analyzeBtn">
+                        <span id="btnText">Analyze Text</span>
+                        <span id="btnLoader" class="loading" style="display: none;"></span>
+                    </button>
+                    <button class="clear-btn" id="clearBtn">Clear</button>
+                </div>
+                
+                <div id="results" style="display: none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About the Project</h2>
+            <p class="section-subtitle">Building tools to detect and prevent bias in AI training data</p>
+            
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-title">The Problem</div>
+                    <div class="card-text">
+                        LLMs learn from biased data sources like social media and Reddit, 
+                        leading to stereotypical associations (e.g., "Doctor" → male, "Nurse" → female).
+                    </div>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-title">Our Solution</div>
+                    <div class="card-text">
+                        A fine-tuned BERT model trained on 28,000 Reddit comments to detect bias 
+                        across gender, race, orientation, and religion categories.
+                    </div>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">🚀</div>
+                    <div class="card-title">The Impact</div>
+                    <div class="card-text">
+                        Help teams identify biased data early in the development process, 
+                        creating fairer and more inclusive AI systems.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results & Stats Section -->
+    <section id="results">
+        <div class="container">
+            <h2>Model Performance</h2>
+            <p class="section-subtitle">Our fine-tuned BERT model achieved strong results</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">83%</div>
+                    <div class="stat-label">F1 Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">80%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">88%</div>
+                    <div class="stat-label">Recall</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">28K</div>
+                    <div class="stat-label">Training Samples</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Dataset Distribution</div>
+                <div style="text-align: center; padding: 2rem;">
+                    <p style="color: #666; margin-bottom: 1rem;">After data cleaning and preprocessing:</p>
+                    <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
+                        <div>
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #ff6b6b;">6,573</div>
+                            <div style="color: #666;">Biased Samples</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 2.5rem; font-weight: 700; color: #51cf66;">4,899</div>
+                            <div style="color: #666;">Non-Biased Samples</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-grid" style="margin-top: 3rem;">
+                <div class="about-card">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">Data Sources</div>
+                    <div class="card-text">
+                        RedditBias dataset covering gender, race, orientation, and religious bias categories
+                    </div>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">🔧</div>
+                    <div class="card-title">Methodology</div>
+                    <div class="card-text">
+                        Fine-tuned BERT with hyperparameter optimization, early stopping, and regularization techniques
+                    </div>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">📈</div>
+                    <div class="card-title">Improvement</div>
+                    <div class="card-text">
+                        Improved F1 score from 0.74 (baseline) to 0.83 through systematic fine-tuning
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <div class="container">
+            <h2>Meet Our Team</h2>
+            <p class="section-subtitle">AI Studio Final Project - Meta 1B</p>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">JC</div>
+                    <div class="member-name">Jay Chan</div>
+                    <div class="member-email">jayc10@uci.edu</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">RL</div>
+                    <div class="member-name">Rianna Lei</div>
+                    <div class="member-email">rxlei@calpoly.edu</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">WF</div>
+                    <div class="member-name">Wen Fan</div>
+                    <div class="member-email">wqfan05@gmail.com</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">HK</div>
+                    <div class="member-name">Hala Khattab</div>
+                    <div class="member-email">hala.khattaab@gmail.com</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">MC</div>
+                    <div class="member-name">Mia Carter</div>
+                    <div class="member-email">Mia.L.Carter04@gmail.com</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">LS</div>
+                    <div class="member-name">Leo Siu</div>
+                    <div class="member-email">leonardo.siu.dev@gmail.com</div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-avatar">RD</div>
+                    <div class="member-name">Rhythm Dawar</div>
+                    <div class="member-email">rythamdawar30@gmail.com</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem; color: #666;">
+                <p>Special thanks to our advisors: Candace Ross, Megan Ung, Rajshri Jain, and Break Through Tech</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Meta 1B Team | AI Bias Detection Tool | AI Studio Final Project</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
