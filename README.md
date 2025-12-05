@@ -9,6 +9,24 @@ Our goal is to study and detect bias in Reddit comments across multiple dimensio
 ### Dataset:
 We used the RedditBias dataset, this contains annoted reddit comments with a bias (binary) column. We split the dataset into training, validation, and test sets.
 
+### Setup
+
+1. Install dependencies:
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   ```
+
+2. **Model Weights**: The model weights (`model.safetensors`, ~418MB) are not stored in this repository due to GitHub's file size limits. To use the model:
+   - Contact a team member to obtain the `model.safetensors` file
+   - Place it in `backend/saved_model/` directory
+   - The config and tokenizer files are already included in the repo
+
+3. Test the model:
+   ```bash
+   python test_model.py
+   ```
+
 ### Finetuning
 - ADD STUFF HERE
 
