@@ -1,32 +1,63 @@
-# from fastapi import FastAPI
-# from pydantic import BaseModel
-# from transformers import AutoTokenizer, AutoModelForSequenceClassification
-# import torch
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+import os
 
-# app = FastAPI()
+app = FastAPI(title="Bias Detection API", description="API for detecting bias in text")
 
-# model_path = "saved_model/"
-# tokenizer = AutoTokenizer.from_pretrained(model_path)
-# model = AutoModelForSequenceClassification.from_pretrained(model_path)
-# model.eval()
+# Load model and tokenizer
+model_path = "saved_model/"
+if not os.path.exists(model_path):
+    raise FileNotFoundError(f"Model path {model_path} does not exist")
 
-# class InputText(BaseModel):
-#     text: str
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+model = AutoModelForSequenceClassification.from_pretrained(model_path)
+model.eval()
 
-# @app.post("/predict")
-# def predict_sentiment(input_data: InputText):
-#     encoded = tokenizer(
-#         input_data.text,
-#         return_tensors="pt",
-#         truncation=True,
-#         padding="max_length",
-#         max_length=128
-#     )
+class InputText(BaseModel):
+    text: str
 
-#     with torch.no_grad():
-#         outputs = model(**encoded)
-#         logits = outputs.logits
-#         pred = torch.argmax(logits, dim=1).item()
+@app.get("/")
+def root():
+    return {"message": "Bias Detection API is running"}
 
-#     label = "biased" if pred == 1 else "non-biased"
-#     return {"prediction": label}
+@app.post("/predict")
+def predict_bias(input_data: InputText):
+    """
+    Predict if the input text is biased or not.
+
+    @param input_data: InputText object containing the text to analyze
+    @return Dictionary with prediction label and confidence scores
+    """
+    try:
+        # Tokenize input text
+        encoded = tokenizer(
+            input_data.text,
+            return_tensors="pt",
+            truncation=True,
+            padding="max_length",
+            max_length=128
+        )
+
+        # Get prediction
+        with torch.no_grad():
+            outputs = model(**encoded)
+            logits = outputs.logits
+            probabilities = torch.softmax(logits, dim=1)
+            pred = torch.argmax(logits, dim=1).item()
+            confidence = probabilities[0][pred].item()
+
+        # Map prediction to label (0: non_biased, 1: biased)
+        label = "biased" if pred == 1 else "non_biased"
+
+        return {
+            "prediction": label,
+            "confidence": round(confidence, 4),
+            "probabilities": {
+                "non_biased": round(probabilities[0][0].item(), 4),
+                "biased": round(probabilities[0][1].item(), 4)
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error during prediction: {str(e)}") from e
