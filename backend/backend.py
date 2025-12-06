@@ -7,12 +7,10 @@ import os
 app = FastAPI(title="Bias Detection API", description="API for detecting bias in text")
 
 # Load model and tokenizer
-model_path = "saved_model/"
-if not os.path.exists(model_path):
-    raise FileNotFoundError(f"Model path {model_path} does not exist")
+model_repo = "Rytham1/bert-bias-detector"
 
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSequenceClassification.from_pretrained(model_path)
+tokenizer = AutoTokenizer.from_pretrained(model_repo)
+model = AutoModelForSequenceClassification.from_pretrained(model_repo)
 model.eval()
 
 class InputText(BaseModel):

@@ -1,10 +1,12 @@
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
+model_id = "Rytham1/bert-bias-detector"
+
 # Load your fine-tuned model
-tokenizer = AutoTokenizer.from_pretrained("saved_model/")
+tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForSequenceClassification.from_pretrained(
-    "saved_model/"
+    model_id
 )
 id2label = model.config.id2label
 
