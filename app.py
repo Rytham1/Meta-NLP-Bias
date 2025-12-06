@@ -1,25 +1,10 @@
 """
 Hugging Face Spaces deployment for Meta NLP Bias Detection
-Includes both Gradio UI AND FastAPI for custom frontend
+Simple Gradio-only version with accessible API
 """
 import gradio as gr
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
-
-# Initialize FastAPI for your custom frontend
-app = FastAPI(title="Bias Detection API")
-
-# Add CORS for your frontend
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Load model and tokenizer
 model_repo = "Rytham1/bert-bias-detector"
@@ -27,55 +12,13 @@ tokenizer = AutoTokenizer.from_pretrained(model_repo)
 model = AutoModelForSequenceClassification.from_pretrained(model_repo)
 model.eval()
 
-# Request model for FastAPI
-class InputText(BaseModel):
-    text: str
-
-# FastAPI endpoint for your custom frontend
-@app.get("/")
-def root():
-    return {"message": "Bias Detection API is running", "status": "healthy"}
-
-@app.post("/predict")
-def predict_bias_api(input_data: InputText):
-    """
-    FastAPI endpoint for your custom frontend
-    """
-    try:
-        encoded = tokenizer(
-            input_data.text,
-            return_tensors="pt",
-            truncation=True,
-            padding="max_length",
-            max_length=128
-        )
-
-        with torch.no_grad():
-            outputs = model(**encoded)
-            logits = outputs.logits
-            probabilities = torch.softmax(logits, dim=1)
-            pred = torch.argmax(logits, dim=1).item()
-            confidence = probabilities[0][pred].item()
-
-        label = "biased" if pred == 1 else "non_biased"
-
-        return {
-            "prediction": label,
-            "confidence": round(confidence, 4),
-            "probabilities": {
-                "non_biased": round(probabilities[0][0].item(), 4),
-                "biased": round(probabilities[0][1].item(), 4)
-            }
-        }
-    except Exception as e:
-        return {"error": str(e)}, 500
-
 def predict_bias(text):
     """
     Predict if the input text is biased or not.
+    Returns: prediction label, confidence, probabilities dict
     """
     if not text.strip():
-        return "Please enter some text to analyze.", None, None
+        return "Please enter some text to analyze.", 0.0, {}
     
     try:
         # Tokenize input text
@@ -96,7 +39,10 @@ def predict_bias(text):
             confidence = probabilities[0][pred].item()
 
         # Map prediction to label
-        label = "⚠️ BIASED" if pred == 1 else "✅ NOT BIASED"
+        if pred == 1:
+            label = "⚠️ BIASED"
+        else:
+            label = "✅ NOT BIASED"
         
         # Create probability dictionary for display
         prob_dict = {
@@ -107,7 +53,7 @@ def predict_bias(text):
         return label, confidence, prob_dict
         
     except Exception as e:
-        return f"Error: {str(e)}", None, None
+        return f"Error: {str(e)}", 0.0, {}
 
 # Create Gradio interface
 with gr.Blocks(title="AI Bias Detection Tool") as demo:
@@ -157,7 +103,8 @@ with gr.Blocks(title="AI Bias Detection Tool") as demo:
     analyze_btn.click(
         fn=predict_bias,
         inputs=input_text,
-        outputs=[result_label, confidence, probabilities]
+        outputs=[result_label, confidence, probabilities],
+        api_name="predict"  # This makes it accessible via API
     )
     
     gr.Markdown("""
@@ -175,10 +122,6 @@ with gr.Blocks(title="AI Bias Detection Tool") as demo:
     **Model:** Fine-tuned BERT on RedditBias dataset
     """)
 
-# Mount Gradio app to FastAPI
-app = gr.mount_gradio_app(app, demo, path="/gradio")
-
 # Launch the app
 if __name__ == "__main__":
     demo.launch()
-
