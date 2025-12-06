@@ -8,7 +8,7 @@ const CONFIG = {
     // API settings
     // For local development: 'http://127.0.0.1:8000'
     // For production: Update this to your deployed backend URL
-    apiUrl: 'http://127.0.0.1:8000',
+    apiUrl: 'https://riannalei-meta-bias-detection-backend.hf.space',
     
     // UI settings
     loadingDelay: 1500, // milliseconds
