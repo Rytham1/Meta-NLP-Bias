@@ -74,27 +74,35 @@ function setLoadingState(isLoading) {
     btnLoader.style.display = isLoading ? 'inline-block' : 'none';
 }
 
-/* Analyze text - connects to backend API */
+/* Analyze text - connects to Gradio backend API */
 async function analyzeText(text) {
     const apiUrl = CONFIG.apiUrl || 'http://127.0.0.1:8000';
-    const response = await fetch(`${apiUrl}/predict`, {
+    
+    // Use Gradio's API endpoint format
+    const response = await fetch(`${apiUrl}/api/predict`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: text })
+        body: JSON.stringify({
+            data: [text]  // Gradio expects data as an array
+        })
     });
     
     if (!response.ok) {
         throw new Error('API request failed');
     }
     
-    const data = await response.json();
+    const result = await response.json();
     
-    // Convert backend response format to frontend format
+    // Parse Gradio response format
+    // result.data is an array: [prediction_label, confidence, probabilities]
+    const prediction_label = result.data[0];  // "⚠️ BIASED" or "✅ NOT BIASED"
+    const confidence = result.data[1];
+    
     return {
-        is_biased: data.prediction === 'biased',
-        confidence: data.confidence
+        is_biased: prediction_label.includes("BIASED") && !prediction_label.includes("NOT"),
+        confidence: confidence
     };
 }
 
