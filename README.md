@@ -76,15 +76,6 @@ The backend provides a REST API for bias detection inference using FastAPI.
    print(response.json())
    ```
 
-### Deployment
-
-Want to publish your project? Check out our comprehensive [Deployment Guide](DEPLOYMENT.md)!
-
-**Quick Options:**
-- 🚀 **Railway/Render** - Easiest, free tier available
-- 🌐 **Netlify/Vercel** (Frontend) + **Railway** (Backend) - Best performance
-- 🐳 **Docker** - Deploy anywhere
-
 ### Finetuning
 - ADD STUFF HERE
 
