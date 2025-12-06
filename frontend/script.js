@@ -74,14 +74,28 @@ function setLoadingState(isLoading) {
     btnLoader.style.display = isLoading ? 'inline-block' : 'none';
 }
 
-/* Analyze text - demo version for now */
+/* Analyze text - connects to backend API */
 async function analyzeText(text) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const result = demoAnalyze(text);
-            resolve(result);
-        }, 1500);
+    const apiUrl = CONFIG.apiUrl || 'http://127.0.0.1:8000';
+    const response = await fetch(`${apiUrl}/predict`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: text })
     });
+    
+    if (!response.ok) {
+        throw new Error('API request failed');
+    }
+    
+    const data = await response.json();
+    
+    // Convert backend response format to frontend format
+    return {
+        is_biased: data.prediction === 'biased',
+        confidence: data.confidence
+    };
 }
 
 /* Simple bias detection logic */
