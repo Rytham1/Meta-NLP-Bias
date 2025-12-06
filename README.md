@@ -1,5 +1,9 @@
 # META NLP PROJECT
 
+## 🌐 Live Demo
+Access the interactive NLP Bias Detection application here:
+[https://nlp-bias-detection.vercel.app/](https://nlp-bias-detection.vercel.app/)
+
 ## Exploring Bias Detection in Reddit Comments with NLP
 
 This project was developed in collaboration with Meta researchers as part of the Breakthrough Tech Fellowship. 
