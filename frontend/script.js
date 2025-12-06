@@ -78,8 +78,8 @@ function setLoadingState(isLoading) {
 async function analyzeText(text) {
     const apiUrl = CONFIG.apiUrl || 'http://127.0.0.1:8000';
     
-    // Use Gradio's API endpoint format
-    const response = await fetch(`${apiUrl}/api/predict`, {
+    // Use Gradio's API endpoint with api_name
+    const response = await fetch(`${apiUrl}/call/predict`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -94,11 +94,39 @@ async function analyzeText(text) {
     }
     
     const result = await response.json();
+    const event_id = result.event_id;
+    
+    // Poll for results
+    const statusResponse = await fetch(`${apiUrl}/call/predict/${event_id}`);
+    const reader = statusResponse.body.getReader();
+    const decoder = new TextDecoder();
+    
+    let finalData;
+    while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value);
+        const lines = chunk.split('\n').filter(line => line.trim());
+        
+        for (const line of lines) {
+            if (line.startsWith('data: ')) {
+                const data = JSON.parse(line.slice(6));
+                if (data.msg === 'process_completed') {
+                    finalData = data.output.data;
+                }
+            }
+        }
+    }
+    
+    if (!finalData) {
+        throw new Error('No results received');
+    }
     
     // Parse Gradio response format
-    // result.data is an array: [prediction_label, confidence, probabilities]
-    const prediction_label = result.data[0];  // "⚠️ BIASED" or "✅ NOT BIASED"
-    const confidence = result.data[1];
+    // finalData is an array: [prediction_label, confidence, probabilities]
+    const prediction_label = finalData[0];  // "⚠️ BIASED" or "✅ NOT BIASED"
+    const confidence = finalData[1];
     
     return {
         is_biased: prediction_label.includes("BIASED") && !prediction_label.includes("NOT"),
