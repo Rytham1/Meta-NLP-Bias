@@ -6,7 +6,7 @@ Access the interactive NLP Bias Detection application here:
 
 ## Exploring Bias Detection in Reddit Comments with NLP
 
-This project was developed in collaboration with Meta researchers as part of the Breakthrough Tech Fellowship. 
+This project was developed in collaboration with Meta researchers Megan Ung and Candace Ross as part of the Breakthrough Tech Fellowship. 
 
 Our goal is to study and detect bias in Reddit comments across multiple dimensions (gender, race, religion, and orientation) using NLP techniques and then finetuning the BERT model to detect the bias.
 
@@ -81,11 +81,15 @@ The backend provides a REST API for bias detection inference using FastAPI.
    ```
 
 ### Finetuning
-- ADD STUFF HERE
+- We utilized weights and biases to track our 20+ fine tuning runs.
+- Originally, our model was overfitting so we applied different techniques which included applying regularization through weight decay and early dropout, adjusting learning rate, batch size, and epochs.
+- The solution to our issue was modifying the learning rate and learning rate scheduler type to linear rather than a constant one.
+- Additionally, we ran into a very high validation loss in which we continued hyperparameter tuning with a focus on learning rate and batch size.
 
 ### Results:
 - Dataset went from ~28,000 datapoints to ~11,000 datapoints after cleaning/filtering
-- ADD STUFF HERE 
+- ~0.45 validation loss & ~0.4 training loss
+- Baseline Logistic Regression Model of 0.74 F1 -> 0.83 F1 (12.16% relative increase)
 
 This Project was developed by:
 - Rytham Dawar - Rythamdawar30@gmail.com
