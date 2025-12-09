@@ -19,7 +19,7 @@ Our model was trained by detecting bias in Reddit comments across multiple group
 | Rytham Dawar    | @Rytham1 | Rythamdawar30@gmail.com            |
 | Leonardo Siu   | @baller7215     | leonardo.siu.dev@gmail.com  |
 | Rianna Lei     | @riannalei  | rxlei@calpoly.edu                 |
-| Wen Fan      | @--       | wqfan05@gmail.com  |
+| Wen Fan      | @Wen-qqi       | wqfan05@gmail.com  |
 | Jay Chan       | @jayc-10    | jayc10@uci.edu           |
 | Hala Khattab       | @halakhattab    | hala.khattaab@gmail.com           |
 
